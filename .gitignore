@@ -1,0 +1,27 @@
+# 個人填好的分析資料（含真實股價與財務數字，不上傳）
+manual_data/*_manual.md
+!manual_data/_TEMPLATE.md
+!manual_data/*.example.md
+
+# 個人產出的分析報告（整個 reports/ 資料夾不上傳）
+reports/
+
+# Python 暫存
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# 系統檔
+.DS_Store
+Thumbs.db
+
+# 編輯器
+.vscode/
+.idea/
+*.swp
+*.swo
