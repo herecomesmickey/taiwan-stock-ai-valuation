@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>台積電（2330）投資評價報告｜新手版</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'PingFang TC','Microsoft JhengHei','Noto Sans TC',sans-serif;
+  background: #f0f4f8; color: #1e293b; font-size: 13.5px; line-height: 1.7;
+}
+
+/* ── Header ── */
+.header {
+  background: linear-gradient(135deg,#0f172a 0%,#1e3a5f 60%,#0e4d7a 100%);
+  color:#fff; padding:40px 48px 32px; position:relative; overflow:hidden;
+}
+.header::before {
+  content:''; position:absolute; top:-60px; right:-60px;
+  width:260px; height:260px; border-radius:50%; background:rgba(255,255,255,0.04);
+}
+.hdr-top { display:flex; justify-content:space-between; align-items:flex-start; position:relative; z-index:1; flex-wrap:wrap; gap:16px; }
+.hdr-company { font-size:26px; font-weight:700; letter-spacing:1px; }
+.hdr-sub     { font-size:13px; color:#94a3b8; margin-top:5px; }
+.beginner-badge {
+  background:#7c3aed; color:#fff; font-size:11px; font-weight:700;
+  padding:3px 12px; border-radius:20px; margin-top:10px; display:inline-block;
+}
+.manu-badge {
+  background:#ea580c; color:#fff; font-size:11px; font-weight:700;
+  padding:3px 12px; border-radius:20px; margin-top:10px; margin-left:6px; display:inline-block;
+}
+.score-badge {
+  text-align:center; border-radius:14px; padding:12px 24px; min-width:170px;
+  box-shadow:0 4px 18px rgba(0,0,0,0.3);
+}
+.sb-num    { font-size:42px; font-weight:800; line-height:1; }
+.sb-max    { font-size:13px; opacity:.8; margin-top:2px; }
+.sb-verdict{ font-size:13px; font-weight:600; margin-top:7px; padding-top:7px; border-top:1px solid rgba(255,255,255,.3); }
+.hdr-meta  { display:flex; gap:32px; margin-top:26px; font-size:12px; color:#94a3b8; position:relative; z-index:1; flex-wrap:wrap; }
+.hdr-meta strong { color:#e2e8f0; display:block; font-size:10px; text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
+
+/* ── Conclusion block（結論先講重點） ── */
+.conclusion-block {
+  background:#fff; padding:24px 48px; border-bottom:4px solid #10b981;
+}
+.conclusion-block.verdict-yellow { border-bottom-color:#f59e0b; }
+.conclusion-block.verdict-red    { border-bottom-color:#ef4444; }
+.cb-label {
+  font-size:11px; font-weight:800; color:#10b981; text-transform:uppercase;
+  letter-spacing:1.5px; margin-bottom:10px; display:flex; align-items:center; gap:6px;
+}
+.cb-verdict-line {
+  font-size:19px; font-weight:800; color:#0f172a; margin-bottom:14px; line-height:1.5;
+}
+.cb-verdict-line .cb-score { font-size:26px; }
+.cb-text {
+  font-size:14px; line-height:2; color:#334155; background:#f8fafc;
+  border:1px solid #e2e8f0; border-radius:12px; padding:18px 20px;
+}
+
+/* ── Intro banner ── */
+.intro-banner {
+  background:linear-gradient(135deg,#7c3aed,#4f46e5);
+  color:#fff; padding:18px 48px; font-size:13px; line-height:1.8;
+}
+.intro-banner strong { font-size:14px; display:block; margin-bottom:5px; }
+
+/* ── Score pills ── */
+.score-pills { background:#fff; padding:18px 48px; display:flex; gap:14px; border-bottom:1px solid #e2e8f0; flex-wrap:wrap; }
+.score-pill  { flex:1; min-width:110px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:13px 14px; text-align:center; }
+.sp-label    { font-size:10px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:.5px; margin-bottom:5px; }
+.sp-num      { font-size:23px; font-weight:800; line-height:1; }
+.sp-max      { font-size:11px; color:#94a3b8; }
+.sp-bonus    { font-size:9.5px; color:#7c3aed; font-weight:700; margin-top:2px; }
+.bar-wrap    { height:5px; background:#e2e8f0; border-radius:3px; margin-top:7px; overflow:hidden; }
+.bar-fill    { height:100%; border-radius:3px; }
+
+/* ── Content ── */
+.content { max-width:900px; margin:28px auto; padding:0 22px; }
+
+/* ── Card ── */
+.card {
+  background:#fff; border-radius:14px; margin-bottom:20px;
+  box-shadow:0 1px 6px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04); overflow:hidden;
+}
+.card-header { display:flex; align-items:center; padding:15px 22px; border-bottom:1px solid #f1f5f9; gap:13px; flex-wrap:wrap; }
+.card-icon   { width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+.card-title  { font-size:14.5px; font-weight:700; color:#0f172a; flex:1; min-width:200px; }
+.card-score  { padding:4px 15px; border-radius:20px; font-size:13.5px; font-weight:700; color:#fff; }
+.card-body   { padding:18px 22px; }
+
+/* ── Metric Row ── */
+.metric-row      { border:1px solid #e2e8f0; border-radius:11px; margin-bottom:12px; overflow:hidden; }
+.metric-top      { display:grid; grid-template-columns:2fr 1.6fr 0.9fr 0.6fr; align-items:stretch; border-bottom:1px solid #f1f5f9; }
+.mc              { padding:11px 14px; border-right:1px solid #f1f5f9; }
+.mc:last-child   { border-right:none; }
+.mc-sm           { display:flex; align-items:center; }
+.mc-xs           { display:flex; align-items:center; justify-content:center; }
+.mc-label        { font-size:10px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:.5px; margin-bottom:3px; }
+.mc-value        { font-size:15px; font-weight:700; }
+.mc-sub          { font-size:11px; color:#94a3b8; margin-top:2px; }
+.mc-bench        { font-size:12px; color:#475569; line-height:1.5; }
+.mc-rating       { font-size:12.5px; font-weight:700; }
+.mc-score        { font-size:21px; font-weight:800; }
+.metric-explain  { background:#fafbff; padding:9px 14px; font-size:12.5px; color:#475569; line-height:1.7; }
+
+/* ── Tip / Warn / Highlight boxes ── */
+.tip-box {
+  background:#f0fdf4; border:1px solid #bbf7d0; border-left:4px solid #10b981;
+  border-radius:0 10px 10px 0; padding:11px 15px; font-size:12.5px;
+  color:#065f46; margin-bottom:14px; line-height:1.8;
+}
+.warn-box {
+  background:#fef2f2; border:1px solid #fecaca; border-left:4px solid #ef4444;
+  border-radius:0 10px 10px 0; padding:11px 15px; font-size:12.5px;
+  color:#991b1b; margin-bottom:14px; line-height:1.8;
+}
+.info-box {
+  background:#eff6ff; border:1px solid #bfdbfe; border-left:4px solid #3b82f6;
+  border-radius:0 10px 10px 0; padding:11px 15px; font-size:12.5px;
+  color:#1e40af; margin-bottom:14px; line-height:1.8;
+}
+.purple-box {
+  background:#faf5ff; border:1px solid #e9d5ff; border-left:4px solid #9333ea;
+  border-radius:0 10px 10px 0; padding:11px 15px; font-size:12.5px;
+  color:#6b21a8; margin-bottom:14px; line-height:1.8;
+}
+
+/* ── Revenue chart ── */
+.rev-chart     { display:flex; align-items:flex-end; gap:10px; height:130px; margin:14px 0; padding:0 4px; }
+.rb-wrap       { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; height:100%; justify-content:flex-end; }
+.rb-yoy        { font-size:11px; font-weight:700; text-align:center; }
+.rb-amt        { font-size:9.5px; color:#94a3b8; }
+.rb-bar        { width:100%; border-radius:4px 4px 0 0; min-height:4px; transition:height .3s; }
+.rb-label      { font-size:11px; color:#64748b; }
+
+/* ── PE River ── */
+.pe-river-wrap { background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:18px 20px; margin:14px 0; }
+.pe-track {
+  height:36px; border-radius:8px; margin:10px 0 4px;
+  background:linear-gradient(to right,#166534,#16a34a,#ca8a04,#b45309,#991b1b);
+}
+.pe-marker       { position:absolute; top:-8px; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; }
+.pe-dot          { width:14px; height:52px; background:#fff; border-radius:3px; box-shadow:0 0 10px rgba(255,255,255,.7); }
+.pe-marker-label { background:#fff; color:#0f172a; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-top:3px; white-space:nowrap; }
+.pe-labels       { display:flex; justify-content:space-between; font-size:11px; color:#64748b; margin-top:4px; }
+
+/* ── Chip bars ── */
+.chip-row    { display:flex; align-items:center; gap:12px; margin-bottom:4px; }
+.chip-name   { font-size:13px; color:#64748b; width:50px; flex-shrink:0; }
+.chip-track  { flex:1; background:#f1f5f9; border-radius:4px; height:12px; overflow:hidden; }
+.chip-fill   { height:12px; border-radius:4px; }
+.chip-label  { font-size:12px; width:110px; text-align:right; flex-shrink:0; font-weight:600; }
+.chip-detail { font-size:11.5px; color:#94a3b8; margin-bottom:12px; padding-left:62px; }
+
+/* ── Circular score ── */
+.circ-wrap { display:inline-flex; align-items:center; justify-content:center; }
+.circ      { width:96px; height:96px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+.circ-inner{ width:68px; height:68px; background:#fff; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.circ-num  { font-size:22px; font-weight:800; line-height:1; }
+.circ-denom{ font-size:11px; color:#94a3b8; }
+
+/* ── Module 7 总分 ── */
+.m7-top    { display:flex; gap:20px; align-items:center; margin-bottom:20px; flex-wrap:wrap; }
+.score-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:8px; flex:1; min-width:280px; }
+.sg-item   { background:#f8fafc; border:1px solid #e2e8f0; border-radius:9px; padding:10px; text-align:center; }
+.sg-label  { font-size:10px; color:#64748b; font-weight:600; margin-bottom:3px; }
+.sg-score  { font-size:18px; font-weight:800; }
+.sg-max    { font-size:11px; color:#94a3b8; }
+
+/* ── AI comment ── */
+.comment-wrap {
+  background:linear-gradient(135deg,#eff6ff,#f0fdf4);
+  border:1px solid #bfdbfe; border-radius:12px;
+  padding:20px 24px; font-size:13.5px; line-height:2; color:#1e293b;
+}
+.comment-wrap p + p { margin-top:12px; }
+
+/* ── Glossary ── */
+.divider { font-size:10.5px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; margin:20px 0 10px; padding-bottom:5px; border-bottom:1px solid #f1f5f9; }
+.glossary { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.gl-item  { background:#f8fafc; border:1px solid #e2e8f0; border-radius:9px; padding:12px 14px; }
+.gl-term  { font-weight:700; color:#0f172a; font-size:13px; margin-bottom:3px; }
+.gl-def   { font-size:12px; color:#475569; line-height:1.7; }
+.gl-eg    { font-size:11.5px; color:#94a3b8; margin-top:3px; font-style:italic; }
+
+/* ── Next update ── */
+.next-update { background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px 20px; margin-top:16px; }
+.nu-title    { font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; }
+.nu-date     { font-size:17px; font-weight:700; color:#0f172a; margin-bottom:8px; }
+.nu-list     { list-style:none; font-size:12px; color:#64748b; }
+.nu-list li::before { content:'→ '; color:#6366f1; font-weight:600; }
+.nu-list li  { margin-bottom:3px; }
+
+/* ── Disclaimer ── */
+.disclaimer { background:#fefce8; border:1px solid #fde68a; border-radius:10px; padding:12px 16px; font-size:12px; color:#92400e; margin-top:16px; line-height:1.8; }
+
+/* ── Source pills ── */
+.src-pills  { display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+.src-pill   { background:#f1f5f9; border:1px solid #e2e8f0; border-radius:20px; padding:2px 10px; font-size:11px; color:#64748b; }
+
+/* ── Footer ── */
+.footer { background:#0f172a; color:#475569; text-align:center; padding:24px 48px; font-size:11.5px; line-height:1.9; margin-top:28px; }
+.footer strong { color:#94a3b8; }
+
+/* ── Table ── */
+table.dt { width:100%; border-collapse:collapse; font-size:13px; }
+table.dt th { background:#f8fafc; padding:8px 12px; text-align:left; font-weight:600; color:#475569; border-bottom:2px solid #e2e8f0; }
+table.dt td { padding:9px 12px; border-bottom:1px solid #f1f5f9; vertical-align:top; }
+table.dt tr:last-child td { border-bottom:none; }
+
+@media print {
+  body { background:#fff; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .card { box-shadow:none; border:1px solid #e2e8f0; break-inside:avoid; }
+  .content { max-width:100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="hdr-top">
+    <div>
+      <div class="hdr-company">台積電 Taiwan Semiconductor</div>
+      <div class="hdr-sub">TSE：2330 ｜ ADR：NYSE TSM ｜ 台股 AI 投資評價報告</div>
+      <span class="beginner-badge">📖 新手友善版</span>
+      <span class="manu-badge">🏭 半導體製造業－晶圓代工（104分制）</span>
+    </div>
+    <div class="score-badge" style="background:#10b981">
+      <div class="sb-num">84</div>
+      <div class="sb-max">綜合評分 / 104</div>
+      <div class="sb-verdict">🟢 值得積極關注</div>
+    </div>
+  </div>
+  <div class="hdr-meta">
+    <div><strong>分析日期</strong>2026/07/02</div>
+    <div><strong>資料基準</strong>2026年第1季（2026Q1）</div>
+    <div><strong>基準股價</strong>NT$2,505 元（2026/07/01收盤）</div>
+    <div><strong>模型版本</strong>v1.0（半導體製造業擴充版）</div>
+  </div>
+  <div class="src-pills">
+    <span class="src-pill">✅ 手動輸入：股價/EPS/獲利/估值/Capex/月營收</span>
+    <span class="src-pill">🔍 財報狗 statementdog.com</span>
+    <span class="src-pill">🔍 玩股網 wantgoo.com</span>
+    <span class="src-pill">🔍 工商時報／經濟日報／StockFeel 法說會摘要</span>
+    <span class="src-pill">🤖 AI估算：歷史PE區間/同業比較/地緣政治/良率判斷/匯率換算</span>
+  </div>
+</div>
+
+<div class="conclusion-block">
+  <div class="cb-label">📌 結論（先講重點）</div>
+  <div class="cb-verdict-line">綜合評分：<span class="cb-score" style="color:#10b981">84</span> ／ 104　🟢　值得積極關注</div>
+  <div class="cb-text">
+    台積電2026Q1財報再創新高：營收年增35%、毛利率66.2%、EPS 22.08元續創紀錄，財務結構業界頂尖（ROE近4季37.7%、負債比31.5%）。先進製程（7nm以下）營收占比達74%創新高，產能滿載，2026年資本支出上修至520-560億美元區間高標，展現長期需求信心。惟需留意估值面：以TTM EPS計算之本益比達33.7倍，已超越歷史河流圖高檔區（約28倍），隱含市場已反映樂觀成長預期；近月外資獲利了結、2月營收YoY一度回落至22%亦為觀察重點。整體基本面強勁、產業龍頭地位穩固，但短線估值偏貴，建議關注7/16 Q2法說會展望與外資籌碼變化，伺機分批布局。
+  </div>
+</div>
+
+<div class="intro-banner">
+  <strong>📖 新手怎麼看這份報告？</strong>
+  這份報告用 <strong>7 個模組評估一支股票值不值得投資</strong>。因為台積電屬於「半導體製造業（晶圓代工）」，模組6多了「良率」與「產能利用率」兩個專屬指標，所以滿分是 <strong>104 分</strong>（一般公司是100分）。每個指標下方都有 💡 說明，告訴你「這個數字是什麼意思」和「為什麼重要」。<br>
+  分數顏色：<span style="background:#10b981;color:#fff;padding:1px 8px;border-radius:4px">🟢 優秀</span>
+  <span style="background:#f59e0b;color:#fff;padding:1px 8px;border-radius:4px">🟡 普通</span>
+  <span style="background:#ef4444;color:#fff;padding:1px 8px;border-radius:4px">🔴 需注意</span>　製造業總分 73+ 值得積極研究、52分以下建議迴避。
+</div>
+
+<div class="score-pills">
+  <div class="score-pill">
+    <div class="sp-label">財務健康</div>
+    <div class="sp-num" style="color:#10b981">30</div>
+    <div class="sp-max">/ 25</div>
+    <div class="sp-bonus">🎁含現金流+5加分</div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:100%;background:#10b981"></div></div>
+  </div>
+  <div class="score-pill">
+    <div class="sp-label">成長性</div>
+    <div class="sp-num" style="color:#10b981">18</div>
+    <div class="sp-max">/ 20</div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:90%;background:#10b981"></div></div>
+  </div>
+  <div class="score-pill">
+    <div class="sp-label">估值</div>
+    <div class="sp-num" style="color:#ef4444">6</div>
+    <div class="sp-max">/ 20</div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:30%;background:#ef4444"></div></div>
+  </div>
+  <div class="score-pill">
+    <div class="sp-label">Capex資本支出</div>
+    <div class="sp-num" style="color:#10b981">13</div>
+    <div class="sp-max">/ 15</div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:87%;background:#10b981"></div></div>
+  </div>
+  <div class="score-pill">
+    <div class="sp-label">台灣特殊指標</div>
+    <div class="sp-num" style="color:#f59e0b">17</div>
+    <div class="sp-max">/ 24</div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:71%;background:#f59e0b"></div></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ══════════ 模組1 ══════════ -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon" style="background:#f0fdf4;color:#16a34a">🏢</div>
+    <div class="card-title">模組 1｜認識這家公司</div>
+    <span style="font-size:11px;color:#94a3b8">不計分・純資訊</span>
+  </div>
+  <div class="card-body">
+    <div class="tip-box">💡 <strong>投資第一步：先搞懂這家公司是做什麼的。</strong><br>
+    你願意把錢交給一家完全不了解的公司嗎？在看數字之前，先確認自己能用一句話說清楚這間公司的核心業務，這是最重要的功課。</div>
+    <table class="dt"><tbody>
+      <tr><td style="color:#64748b;width:120px">公司全名</td><td><strong>台灣積體電路製造股份有限公司（Taiwan Semiconductor Manufacturing Company, TSMC）</strong></td></tr>
+      <tr><td style="color:#64748b">市場／產業</td><td><strong>台灣證券交易所上市（TWSE），美股ADR掛牌NYSE: TSM　/　半導體－晶圓代工</strong></td></tr>
+      <tr><td style="color:#64748b">供應鏈位置</td><td><strong>全球最大專業積體電路製造服務公司，服務IC設計、IDM、系統廠客戶，不與客戶競爭終端產品市場，是「晶圓代工」商業模式的創始者與龍頭</strong></td></tr>
+      <tr><td style="color:#64748b">一句話描述</td><td><strong>提供2nm～成熟製程的晶圓代工服務，並提供CoWoS等先進封裝，2026Q1先進製程（7nm以下）占晶圓銷售74%創新高</strong></td></tr>
+    </tbody></table>
+
+    <p style="font-size:11.5px;color:#475569;font-weight:600;margin:16px 0 8px">🧩 營收結構（Revenue Breakdown，依平台別）</p>
+    <table class="dt"><tbody>
+      <tr><td style="width:220px">HPC（高效能運算，含AI伺服器）</td><td><strong>61%</strong>（季增20%，2024年僅約40%，結構性攀升）</td></tr>
+      <tr><td>智慧型手機</td><td><strong>26%</strong>（季減11%）</td></tr>
+      <tr><td>IoT（物聯網）</td><td><strong>6%</strong>（季增12%）</td></tr>
+      <tr><td>車用</td><td><strong>4%</strong>（季減7%）</td></tr>
+      <tr><td>其他</td><td><strong>約3%</strong></td></tr>
+    </tbody></table>
+    <div class="tip-box" style="margin-top:14px">
+      🚀 <strong>主要成長引擎：</strong>AI相關HPC平台需求爆發性成長（占比從2024年約40%攀升至61%），先進製程與CoWoS先進封裝產能持續滿載擴張，公司已徹底轉型為「AI基礎設施驅動」的營運模式。
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 模組2 ══════════ -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon" style="background:#fef3c7;color:#d97706">💰</div>
+    <div class="card-title">模組 2｜財務健康 ── 公司賺不賺錢、穩不穩？</div>
+    <span class="card-score" style="background:#10b981">30 / 25</span>
+  </div>
+  <div class="card-body">
+    <div class="tip-box">💡 <strong>新手重點：</strong>財務健康就像幫公司量血壓。毛利率／淨利率是「賺錢能力」，ROE 是「幫股東錢滾錢的效率」，負債比是「有沒有借太多錢」。台積電這次5項指標「全數優等」，是業界頂尖水準。</div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc"><div class="mc-label">毛利率</div><div class="mc-value" style="color:#10b981">66.2%</div><div class="mc-sub">2026Q1</div></div>
+        <div class="mc"><div class="mc-label">及格線</div><div class="mc-bench">優 &gt;45%　良 25~45%　差 &lt;25%（晶圓代工門檻）</div></div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">優</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">5</div></div>
+      </div>
+      <div class="metric-explain">💡 <strong>賣東西賺到的錢，扣掉直接生產成本後，剩下的比例。</strong>越高代表產品議價能力越強、技術門檻越高。66.2%不僅遠超晶圓代工「優」門檻（45%），更是台積電有史以來最高毛利率之一，反映先進製程供不應求。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc"><div class="mc-label">營業利益率</div><div class="mc-value" style="color:#10b981">58.1%</div><div class="mc-sub">2026Q1</div></div>
+        <div class="mc"><div class="mc-label">及格線</div><div class="mc-bench">優 &gt;30%　良 15~30%　差 &lt;15%（晶圓代工門檻）</div></div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">優</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">5</div></div>
+      </div>
+      <div class="metric-explain">💡 在毛利基礎上，再扣掉管理費、研發費、銷售費後，本業的獲利率。最能反映「公司本業經營好不好」，58.1%在資本密集的晶圓代工業中屬於極高水準。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc"><div class="mc-label">淨利率</div><div class="mc-value" style="color:#10b981">50.5%</div><div class="mc-sub">2026Q1</div></div>
+        <div class="mc"><div class="mc-label">及格線</div><div class="mc-bench">優 &gt;15%　良 5~15%　差 &lt;5%</div></div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">優</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">5</div></div>
+      </div>
+      <div class="metric-explain">💡 所有收入扣掉全部費用、利息、稅後，最終真正落袋的比例。50.5%代表每收100元營收，有超過50元變成純利潤，屬於全球製造業罕見的高水準。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc"><div class="mc-label">ROE（股東權益報酬率）</div><div class="mc-value" style="color:#10b981">37.67%</div><div class="mc-sub">近4季（TTM）</div></div>
+        <div class="mc"><div class="mc-label">及格線</div><div class="mc-bench">優 &gt;15%　良 8~15%　差 &lt;8%（晶圓代工調整門檻）</div></div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">優</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">5</div></div>
+      </div>
+      <div class="metric-explain">💡 「用股東的錢，幫股東賺了多少錢」的比率。這裡採用近4季（TTM）數字，比單季更能反映真實年化水準。37.67%遠超巴菲特標準（&gt;15%），也高於晶圓代工調整後的優等門檻。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc"><div class="mc-label">負債比率</div><div class="mc-value" style="color:#10b981">31.5%</div><div class="mc-sub">2026Q1</div></div>
+        <div class="mc"><div class="mc-label">及格線</div><div class="mc-bench">優 &lt;45%　良 45~60%　差 &gt;60%（晶圓代工調整門檻）</div></div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">優</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">5</div></div>
+      </div>
+      <div class="metric-explain">💡 公司總資產裡面，有多少比例是借來的錢。晶圓代工是資本密集產業，門檻本就比一般公司寬鬆，但31.5%仍屬穩健水準，代表公司主要用自有現金流支應龐大的擴產計畫，而非大量舉債。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc" style="grid-column:span 2">
+          <div class="mc-label">現金流品質（自由現金流 FCF）</div>
+          <div class="mc-value" style="color:#10b981">FCF為正 ✅</div>
+        </div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">🟢 加分</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">+5</div></div>
+      </div>
+      <div class="metric-explain">💡 公司「實際收到的現金」扣掉「維持並擴張業務所需的投資（蓋廠、買機器）」後剩下的現金，比帳面利潤更真實（現金造不出來）。台積電近4季FCF約10,868.7億元，雖為淨利（約19,292億元）的56%、並非「非常接近」，但主因是2026年資本支出大舉上修至520-560億美元的擴產週期，屬於健康的成長型投資訊號，而非財務體質警訊。</div>
+    </div>
+
+    <div class="info-box">
+      📅 <strong>現金股利殖利率：</strong>近4季現金股利合計24元（2025Q2~2026Q1季配息5+6+6+7元）÷ 當前股價2,505元 = <strong>0.958%</strong>（非除息前股價，下次除息7元將於2026/07/16法說會後、2026/09/16發放）。殖利率偏低不代表公司差，通常代表股價已反映高度成長預期，投資人賺的主要是價差而非股息。
+    </div>
+
+    <div class="tip-box" style="margin-top:14px">
+      ✅ <strong>模組 2 小結（30/25）：</strong>財務健康指標「全數優等」加上現金流品質額外加分，是本次報告表現最亮眼的模組，反映公司在AI需求帶動下正處於獲利能力的歷史高峰。
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 模組3 ══════════ -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon" style="background:#f0fdf4;color:#16a34a">📈</div>
+    <div class="card-title">模組 3｜成長性 ── 公司有沒有在持續變大、變強？</div>
+    <span class="card-score" style="background:#10b981">18 / 20</span>
+  </div>
+  <div class="card-body">
+    <div class="tip-box">💡 <strong>新手重點：</strong>一家公司現在賺錢不夠，還要「持續成長」才值得投資。成長性看的是：營收有沒有越來越多？獲利有沒有越來越高？未來方向是否樂觀？</div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc"><div class="mc-label">營收YoY（年增率）</div><div class="mc-value" style="color:#10b981">+35.1%</div><div class="mc-sub">2026Q1 vs 2025Q1</div></div>
+        <div class="mc"><div class="mc-label">及格線</div><div class="mc-bench">優 &gt;25%　良 0~25%　差 &lt;0%（半導體調高門檻）</div></div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">優</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">6</div></div>
+      </div>
+      <div class="metric-explain">💡 「今年這一季的營收，比去年同一季成長了多少%」。台積電基期已很高（去年也在成長），仍能維持35.1%的年增率，反映AI需求持續強勁，優於半導體調高後的優等門檻（&gt;25%）。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc"><div class="mc-label">EPS 3年CAGR（2022→2025）</div><div class="mc-value" style="color:#f59e0b">19.1%</div><div class="mc-sub">緊貼優等門檻</div></div>
+        <div class="mc"><div class="mc-label">及格線</div><div class="mc-bench">優 &gt;20%　良 5~20%　差 &lt;5%（半導體調高門檻）</div></div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#f59e0b">良</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#f59e0b">4</div></div>
+      </div>
+      <div class="metric-explain">💡 EPS（每股盈餘）= 公司獲利 ÷ 總股數；CAGR = 平均每年成長多少%，排除單年波動。19.1%只差一點就達到半導體調高後的優等門檻（20%），代表過去三年獲利平均每年成長近兩成，屬於大型龍頭股中相當亮眼的複合成長率。</div>
+    </div>
+
+    <p style="font-size:11.5px;color:#64748b;margin:12px 0 4px;font-weight:600">📊 月營收年增率趨勢（台股每月10日公布，是最即時的景氣溫度計）</p>
+    <div class="rev-chart">
+      <div class="rb-wrap"><div class="rb-yoy" style="color:#10b981">+20.4%</div><div class="rb-bar" style="height:35%;background:#10b981"></div><div class="rb-label">2025/12</div></div>
+      <div class="rb-wrap"><div class="rb-yoy" style="color:#10b981">+36.8%</div><div class="rb-bar" style="height:63%;background:#10b981"></div><div class="rb-label">2026/01</div></div>
+      <div class="rb-wrap"><div class="rb-yoy" style="color:#10b981">+22.2%</div><div class="rb-bar" style="height:38%;background:#10b981"></div><div class="rb-label">2026/02</div></div>
+      <div class="rb-wrap"><div class="rb-yoy" style="color:#10b981">+45.2%</div><div class="rb-bar" style="height:78%;background:#10b981"></div><div class="rb-label">2026/03</div></div>
+      <div class="rb-wrap"><div class="rb-yoy" style="color:#10b981">+17.5%</div><div class="rb-bar" style="height:30%;background:#10b981"></div><div class="rb-label">2026/04</div></div>
+      <div class="rb-wrap"><div class="rb-yoy" style="color:#10b981">+30.1%</div><div class="rb-bar" style="height:52%;background:#10b981"></div><div class="rb-label">2026/05</div></div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc"><div class="mc-label">月營收趨勢</div><div class="mc-value" style="color:#10b981">連續6個月YoY全數正值</div></div>
+        <div class="mc"><div class="mc-label">及格線</div><div class="mc-bench">連續3月YoY正→優；持平→良；連續3月負→差</div></div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">優</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">4</div></div>
+      </div>
+      <div class="metric-explain">💡 台灣上市公司每月10日前公布上個月營收，比財報早1~2個月。台積電近6個月YoY全數正值（+17.5%~+45.2%），雖2月出現波動式放緩，但3~5月動能再度回升，整體趨勢仍屬強勁。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc"><div class="mc-label">法說會展望</div><div class="mc-value" style="color:#10b981">正向上修</div></div>
+        <div class="mc"><div class="mc-label">及格線</div><div class="mc-bench">正向上修→優；持平→良；下修→差</div></div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">優</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">4</div></div>
+      </div>
+      <div class="metric-explain">💡 管理層在2026/04/16法說會重申「2026全年美元營收展望維持年增近三成」，並將資本支出guidance上修至520-560億美元區間高標。管理層是最了解自家公司的人，敢公開喊出更樂觀的預期，通常是強烈的正面訊號。</div>
+    </div>
+
+    <div class="tip-box" style="margin-top:14px">
+      ✅ <strong>模組 3 小結（18/20）：</strong>營收YoY、月營收趨勢、法說展望三項均達優等，EPS CAGR僅一步之遙即達優等門檻，整體成長動能非常強勁。
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 模組4 ══════════ -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon" style="background:#fff1f2;color:#e11d48">🎯</div>
+    <div class="card-title">模組 4｜估值 ── 現在的股價，貴不貴？</div>
+    <span class="card-score" style="background:#ef4444">6 / 20</span>
+  </div>
+  <div class="card-body">
+    <div class="warn-box">⚠️ <strong>本次報告估值偏低分。</strong>好公司 ≠ 好時機，「用好價格買到好公司」才是真正聰明的投資。台積電基本面極強，但股價已明顯反映高度樂觀預期。</div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc">
+          <div class="mc-label">本益比（PE）TTM</div>
+          <div class="mc-value" style="color:#ef4444">33.7 倍</div>
+          <div class="mc-sub">2,505元 ÷ 近四季EPS 74.38元</div>
+        </div>
+        <div class="mc">
+          <div class="mc-label">歷史合理區間（AI估算）</div>
+          <div class="mc-bench">18x（低）～ 28x（高）</div>
+        </div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#ef4444">🔴 高檔區以上</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#ef4444">6</div></div>
+      </div>
+      <div class="metric-explain">💡 <strong>本益比（PE）是什麼？</strong>「你付出的股價，相當於公司多少年的獲利」。PE = 股價 ÷ EPS。<strong>PE越低=越便宜；PE越高=越貴。</strong>台積電目前33.7倍已超越AI估算的歷史高檔區（28倍），代表市場已經把「AI需求會持續強勁」的樂觀預期，提前反映在股價裡了。</div>
+    </div>
+
+    <p style="font-size:11px;color:#64748b;margin:14px 0 4px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">本益比河流圖──現在落在哪個區間？</p>
+    <div class="pe-river-wrap">
+      <div style="font-size:11px;color:#64748b;margin-bottom:8px;">低 ← 便宜　　　　　　貴 → 高</div>
+      <div style="position:relative;">
+        <div class="pe-track"></div>
+        <div class="pe-marker" style="left:96%">
+          <div class="pe-dot"></div>
+          <div class="pe-marker-label">現在 33.7x</div>
+        </div>
+      </div>
+      <div class="pe-labels">
+        <span>18x 合理偏低</span>
+        <span>22x 中間</span>
+        <span>28x 偏高</span>
+      </div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc" style="grid-column:span 2">
+          <div class="mc-label">相對同業折溢價</div>
+          <div class="mc-value" style="color:#ef4444">溢價（限定同次產業比較）</div>
+        </div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#ef4444">🔴 溢價</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#ef4444">0</div></div>
+      </div>
+      <div class="metric-explain">💡 依規則限定與「同次產業」（晶圓代工）比較：聯電、世界先進等成熟製程同業本益比多在15倍以下，台積電33.7倍明顯溢價。但這主要反映台積電在先進製程（2~7nm）的技術壟斷地位與AI供應鏈核心角色，與成熟製程同業的獲利結構本質不同，比較意義有限，不宜直接視為「台積電比較貴」的訊號。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc" style="grid-column:span 2">
+          <div class="mc-label">合理股價上漲空間</div>
+          <div class="mc-value" style="color:#94a3b8">無上漲空間</div>
+        </div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#94a3b8">未達標</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#94a3b8">0</div></div>
+      </div>
+      <div class="metric-explain">💡 以近四季EPS（TTM 74.38元 × 合理PE中位22倍 = 1,636元）估算的合理股價，明顯低於目前股價2,505元，代表以歷史估值標準衡量，目前沒有15%以上的上漲空間可加分。這不代表股價一定會下跌，但意味著短期上漲動能需要更多超預期消息（如法說會展望再度上修）來支撐。</div>
+    </div>
+
+    <div class="tip-box" style="margin-top:14px">
+      🔴 <strong>模組 4 小結（6/20）：</strong>估值是本次報告的最大警訊，股價已明顯超越歷史高檔區，若AI需求成長不如預期，股價修正風險不小；但這也是龍頭股在產業超級週期中常見的現象，需搭配基本面持續追蹤。
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 模組5：Capex ══════════ -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon" style="background:#eef2ff;color:#4f46e5">🏭</div>
+    <div class="card-title">模組 5｜Capex資本支出 ── 公司有沒有在積極擴廠？</div>
+    <span class="card-score" style="background:#10b981">13 / 15</span>
+  </div>
+  <div class="card-body">
+    <div class="tip-box">💡 <strong>新手重點：</strong>Capex（資本支出）是公司花錢蓋新廠、買新設備的投資。半導體是資本密集產業，Capex的多寡與方向，直接決定公司未來1~3年能不能吃到成長紅利。</div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc"><div class="mc-label">Capex／折舊比（TTM）</div><div class="mc-value" style="color:#f59e0b">1.88 倍</div><div class="mc-sub">12,615.1億 ÷ 6,699.9億</div></div>
+        <div class="mc"><div class="mc-label">及格線</div><div class="mc-bench">優 &gt;2.0　良 1.0~2.0　差 &lt;1.0</div></div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#f59e0b">良</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#f59e0b">2</div></div>
+      </div>
+      <div class="metric-explain">💡 這個比率是「花在蓋新廠買設備的錢」除以「舊資產折舊的錢」。&gt;1代表投資速度快於資產耗損，是擴張訊號。1.88倍已非常接近優等門檻（2.0），且2026年guidance進一步上修，未來幾季有機會突破優等區間。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc"><div class="mc-label">Capex YoY變化</div><div class="mc-value" style="color:#10b981">+30.2%</div><div class="mc-sub">TTM 12,615.1億 vs FY2024約9,685億</div></div>
+        <div class="mc"><div class="mc-label">及格線</div><div class="mc-bench">優 &gt;20%　良 0~20%　差 &lt;0%</div></div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">優</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">4</div></div>
+      </div>
+      <div class="metric-explain">💡 公司法說會明確宣布2026年全年資本支出將落在520-560億美元guidance區間高標，較2025年實際409億美元大幅成長，是非常積極的擴產訊號，主要用於先進製程與CoWoS先進封裝產能擴充。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc"><div class="mc-label">FCF margin（扣Capex後）</div><div class="mc-value" style="color:#10b981">25.5%</div><div class="mc-sub">(23,483.8億營業現金流-12,615.1億Capex)÷42,615.2億營收</div></div>
+        <div class="mc"><div class="mc-label">及格線</div><div class="mc-bench">優 &gt;10%　良 0~10%　差 &lt;0%</div></div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">優</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">4</div></div>
+      </div>
+      <div class="metric-explain">💡 就算把蓋廠買設備的錢扣掉，公司每收100元營收，還能留下超過25元的自由現金。代表台積電即便正在史上最大規模擴產，手頭現金依然非常寬裕，不需要靠借錢過日子。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc"><div class="mc-label">Capex方向與法說一致性</div><div class="mc-value" style="color:#10b981">吻合且具體</div></div>
+        <div class="mc"><div class="mc-label">及格線</div><div class="mc-bench">吻合且具體→優；模糊→良；矛盾→差</div></div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">優</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">3</div></div>
+      </div>
+      <div class="metric-explain">💡 法說會清楚說明520-560億美元怎麼花（約70~80%投入先進製程、10~20%先進封裝、約10%特殊製程），用途具體且與「AI需求持續強勁、加速擴產」的展望完全吻合。</div>
+    </div>
+
+    <div class="tip-box" style="margin-top:14px">
+      ✅ <strong>模組 5 小結（13/15）：</strong>公司正以史上最大規模積極擴產，現金流品質優異、資金主要來自本業獲利而非舉債，長期成長布局相當扎實。
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 模組6 ══════════ -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon" style="background:#fff7ed;color:#ea580c">🇹🇼</div>
+    <div class="card-title">模組 6｜台灣特殊指標 ── 台股獨有的資訊</div>
+    <span class="card-score" style="background:#f59e0b">17 / 24</span>
+  </div>
+  <div class="card-body">
+    <div class="tip-box">💡 <strong>台股獨特指標說明：</strong>台灣股市有幾項其他市場少見的資訊：每月公布月營收、外資與投信每日買賣超、法說會態度，以及台灣特有的地緣政治風險。因為台積電是半導體製造業（晶圓代工），這裡多了「良率」與「產能利用率」兩個專屬指標（滿分從20分變成24分）。</div>
+
+    <p style="font-size:11.5px;color:#475569;font-weight:600;margin-bottom:10px">🏦 法人籌碼方向（外資是台股最大資金力量；投信是本土基金公司）</p>
+    <div class="chip-row">
+      <span class="chip-name">外資</span>
+      <div class="chip-track"><div class="chip-fill" style="width:75%;background:#ef4444"></div></div>
+      <span class="chip-label" style="color:#ef4444">📉 賣超為主</span>
+    </div>
+    <div class="chip-detail">4~5月偏買超，6月下旬起連續賣超（累計約6.5萬張），淨方向偏向高檔獲利了結（得分 2/4，建議人工複核最新籌碼）</div>
+    <div class="chip-row">
+      <span class="chip-name">投信</span>
+      <div class="chip-track"><div class="chip-fill" style="width:50%;background:#f59e0b"></div></div>
+      <span class="chip-label" style="color:#f59e0b">🔄 方向不穩定</span>
+    </div>
+    <div class="chip-detail">前期多買超，6月底轉小幅賣超，整體方向不穩定（得分 2/3）</div>
+
+    <div class="info-box" style="margin-top:4px">
+      💡 <strong>外資買超</strong> = 外國機構今天買多於賣（正面）；<strong>賣超</strong> = 出清持股，股價可能承壓。外資規模遠大於投信，兩者同步買超 = 最強訊號；本次外資高檔獲利了結、投信方向不穩，屬於短線籌碼面偏弱但不代表基本面轉差的訊號。
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc" style="grid-column:span 2">
+          <div class="mc-label">月營收動能</div>
+          <div class="mc-value" style="color:#10b981">連續6個月YoY正值，維持高速成長</div>
+        </div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">優</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">4<span style="font-size:11px;color:#94a3b8">/4</span></div></div>
+      </div>
+      <div class="metric-explain">💡 台灣上市公司每月10日前公布上個月營收。台積電近6個月YoY全數正值且維持高速成長，是本次報告最強的訊號之一。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc" style="grid-column:span 2">
+          <div class="mc-label">法說會態度</div>
+          <div class="mc-value" style="color:#10b981">正向上修</div>
+        </div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">優</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">4<span style="font-size:11px;color:#94a3b8">/4</span></div></div>
+      </div>
+      <div class="metric-explain">💡 管理層親自說明的未來展望。台積電重申全年美元營收展望維持年增近3成、資本支出上修至高標，是強烈的正面訊號。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc" style="grid-column:span 2">
+          <div class="mc-label">庫藏股</div>
+          <div class="mc-value" style="color:#94a3b8">近期無執行</div>
+        </div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#94a3b8">未執行</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#94a3b8">0<span style="font-size:11px;color:#94a3b8">/2</span></div></div>
+      </div>
+      <div class="metric-explain">💡 庫藏股是公司拿自己的錢買回自家股票，通常代表管理層認為股價被低估。台積電向來以「配息＋擴產」為主要資本配置方式，較少執行庫藏股，這在龍頭成長股中屬正常現象。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc" style="grid-column:span 2">
+          <div class="mc-label">地緣政治風險</div>
+          <div class="mc-value" style="color:#f59e0b">中度曝險</div>
+        </div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#f59e0b">中</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#f59e0b">2<span style="font-size:11px;color:#94a3b8">/3</span></div></div>
+      </div>
+      <div class="metric-explain">💡 台灣公司普遍面臨的獨特風險。台積電未被列入美國實體清單、中國營收占比低，直接受出口管制影響有限；但先進製程產能高度集中於台灣本土（占比高達74%），仍需留意台海地緣政治情勢與美國關稅政策的不確定性。這是台股投資必須納入考量的「尾部風險」（低機率但影響大的事件）。</div>
+    </div>
+
+    <p style="font-size:11.5px;color:#475569;font-weight:600;margin:18px 0 10px">🏭 半導體製造業專屬指標</p>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc" style="grid-column:span 2">
+          <div class="mc-label">★ 良率趨勢</div>
+          <div class="mc-value" style="color:#f59e0b">持平／未明確揭露具體數字</div>
+        </div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#f59e0b">持平</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#f59e0b">1<span style="font-size:11px;color:#94a3b8">/2</span></div></div>
+      </div>
+      <div class="metric-explain">💡 法說會未公布具體良率數字，僅強調3nm/2nm製程進度順利、爬坡符合預期。</div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-top">
+        <div class="mc" style="grid-column:span 2">
+          <div class="mc-label">★ 產能利用率方向</div>
+          <div class="mc-value" style="color:#10b981">上升</div>
+        </div>
+        <div class="mc mc-sm"><div class="mc-rating" style="color:#10b981">上升</div></div>
+        <div class="mc mc-xs"><div class="mc-score" style="color:#10b981">2<span style="font-size:11px;color:#94a3b8">/2</span></div></div>
+      </div>
+      <div class="metric-explain">💡 先進製程（7nm以下）占晶圓銷售74%創新高（3nm占25%、5nm占36%、7nm占13%），反映先進製程產能滿載、利用率持續上升。</div>
+    </div>
+
+    <div class="info-box">
+      📌 <strong>為什麼良率重要？</strong><br>
+      良率是指每批晶圓或產品中，符合規格的比例。良率愈高，代表相同的材料和設備投入能產出更多可售產品，直接拉高毛利率。對半導體公司而言，良率提升1%有時相當於數億元的利潤改善，是衡量製造競爭力最核心的指標之一。
+    </div>
+    <div class="info-box">
+      📌 <strong>為什麼產能利用率重要？</strong><br>
+      產能利用率是指工廠實際開動的產能佔總產能的比例。利用率高代表訂單飽滿、需求強勁；利用率下滑則通常是景氣反轉或客戶砍單的早期訊號。由於製造業的固定成本高，利用率每下降10%，獲利往往下滑幅度更大，因此是觀察半導體景氣循環的關鍵先行指標。
+    </div>
+
+    <div class="tip-box" style="margin-top:14px">
+      🟡 <strong>模組 6 小結（17/24）：</strong>月營收動能、法說態度、產能利用率三項表現優異，外資近期獲利了結、投信方向不穩、庫藏股未執行、良率未明確揭露拉低了部分分數，整體仍偏正面。
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 模組7 ══════════ -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon" style="background:#eff6ff;color:#2563eb">🤖</div>
+    <div class="card-title">模組 7｜AI 綜合評語與投資建議</div>
+    <span class="card-score" style="background:#10b981">84 / 104</span>
+  </div>
+  <div class="card-body">
+    <div class="m7-top">
+      <div class="circ-wrap">
+        <div class="circ" style="background:conic-gradient(#10b981 0% 81%, #e2e8f0 81% 100%)">
+          <div class="circ-inner">
+            <div class="circ-num" style="color:#10b981">84</div>
+            <div class="circ-denom">/ 104</div>
+          </div>
+        </div>
+      </div>
+      <div class="score-grid">
+        <div class="sg-item"><div class="sg-label">財務健康</div><div class="sg-score" style="color:#10b981">30</div><div class="sg-max">/ 25</div></div>
+        <div class="sg-item"><div class="sg-label">成長性</div><div class="sg-score" style="color:#10b981">18</div><div class="sg-max">/ 20</div></div>
+        <div class="sg-item"><div class="sg-label">估值</div><div class="sg-score" style="color:#ef4444">6</div><div class="sg-max">/ 20</div></div>
+        <div class="sg-item"><div class="sg-label">Capex</div><div class="sg-score" style="color:#10b981">13</div><div class="sg-max">/ 15</div></div>
+        <div class="sg-item"><div class="sg-label">台灣指標</div><div class="sg-score" style="color:#f59e0b">17</div><div class="sg-max">/ 24</div></div>
+      </div>
+    </div>
+
+    <div class="comment-wrap">
+      <p>台積電2026Q1財報再創新高：營收年增35%、毛利率66.2%、EPS 22.08元續創紀錄，財務結構業界頂尖（ROE近4季37.7%、負債比31.5%）。先進製程（7nm以下）營收占比達74%創新高，產能滿載，2026年資本支出上修至520-560億美元區間高標，展現長期需求信心。</p>
+      <p>惟需留意估值面：以TTM EPS計算之本益比達33.7倍，已超越歷史河流圖高檔區（約28倍），隱含市場已反映樂觀成長預期；近月外資獲利了結、2月營收YoY一度回落至22%亦為觀察重點。整體基本面強勁、產業龍頭地位穩固，但短線估值偏貴，建議關注7/16 Q2法說會展望與外資籌碼變化，伺機分批布局而非追高。</p>
+    </div>
+
+    <div class="next-update">
+      <div class="nu-title">📅 建議下次更新日期</div>
+      <div class="nu-date">2026年7月中旬</div>
+      <ul class="nu-list">
+        <li>台積電2026Q2法說會已排定2026/07/16</li>
+        <li>正式Q2財報公布後應更新財務數據、月營收與Capex實際執行數字</li>
+        <li>需人工複核：外資／投信近3月精確買賣超數據（建議查Goodinfo三大法人頁面）</li>
+        <li>需人工複核：FY2024 Capex美元換算新台幣所用匯率精確度</li>
+        <li>建議查閱財報狗付費版完整20年本益比河流圖數據</li>
+      </ul>
+    </div>
+
+    <div class="divider">📚 新手名詞速查表</div>
+    <div class="glossary">
+      <div class="gl-item">
+        <div class="gl-term">毛利率</div>
+        <div class="gl-def">賣東西扣掉直接生產成本的利潤比率。越高代表技術門檻越高、議價能力越強。</div>
+        <div class="gl-eg">本次：66.2%</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">ROE（股東權益報酬率）</div>
+        <div class="gl-def">用股東的錢，幫股東賺回多少%。巴菲特最重視的指標之一，&gt;15%是優秀標準。</div>
+        <div class="gl-eg">本次：37.67%（近4季）</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">EPS（每股盈餘）</div>
+        <div class="gl-def">公司總獲利 ÷ 總股數，每一股能分到多少利潤。EPS成長 = 公司越來越賺錢。</div>
+        <div class="gl-eg">本次：2026Q1單季22.08元、TTM 74.38元</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">本益比（PE）</div>
+        <div class="gl-def">股價 ÷ EPS。衡量股價貴不貴，越低越便宜。成長股PE通常偏高。</div>
+        <div class="gl-eg">本次：33.7倍</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">Capex／折舊比</div>
+        <div class="gl-def">花在新建設的錢 ÷ 舊資產耗損的錢。&gt;1代表積極擴張，&lt;1代表投資縮手。</div>
+        <div class="gl-eg">本次：TTM 1.88倍（2026 guidance進一步上修）</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">自由現金流（FCF）</div>
+        <div class="gl-def">營業現金 – 投資支出。比帳面利潤更真實，現金是造不出來的。</div>
+        <div class="gl-eg">本次：TTM約10,868.7億元，為正值</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">外資買賣超</div>
+        <div class="gl-def">外國機構每天買進或賣出的張數差額。外資是台股最大資金力量，動向至關重要。</div>
+        <div class="gl-eg">本次：6月下旬起連續賣超，高檔獲利了結</div>
+      </div>
+      <div class="gl-item">
+        <div class="gl-term">良率 / 產能利用率</div>
+        <div class="gl-def">良率＝合格產品比例；產能利用率＝工廠實際開動比例。兩者都是半導體景氣的先行指標。</div>
+        <div class="gl-eg">本次：良率持平、產能利用率上升（先進製程占比74%創新高）</div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      ⚠️ <strong>免責聲明：</strong>本報告僅供學習參考，不構成投資建議。投資一定有風險，入市前請自行查證最新數據，必要時諮詢專業財務顧問。
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <strong>台股 AI 投資評價模型 v1.0 ｜ 新手友善版（半導體製造業擴充）</strong><br>
+  台積電（2330）｜ 分析日期：2026/07/02 ｜ 資料基準：2026年第1季（2026Q1）<br>
+  本報告由 Claude AI 輔助產生，數據來源已於各模組標示 ｜ 僅供學習參考，非投資建議
+</div>
+
+</body>
+</html>
