@@ -126,10 +126,10 @@ The system currently supports several output formats: the raw Markdown report (s
 ├── .gitignore              Git configuration (new)
 ├── manual_data/
 │   ├── _TEMPLATE.md              Manual data-entry template
-│   ├── 2330_manual.example.md    Sample filled-in data (new, for reference)
+│   ├── 2330_manual.md    Sample filled-in data (new, for reference)
 │   └── {ticker}_manual.md        Filled-in data per stock
 ├── example_reports/
-│   └── 2330_report_example.md    Sample report (new, but in the old format — Module 5 is still
+│   └── 2330_report_20260702.md    Sample report (new, but in the old format — Module 5 is still
 │                                  "Dividend," inconsistent with the current logic)
 ├── reports/
     ├── {ticker}_report_{date}.md              Raw report
