@@ -126,10 +126,10 @@
 ├── .gitignore              Git 版本控制設定（新增）
 ├── manual_data/
 │   ├── _TEMPLATE.md              手動輸入表單模板
-│   ├── 2330_manual.example.md    範例填寫資料（新增，供參考格式）
+│   ├── 2330_manual.md    範例填寫資料（新增，供參考格式）
 │   └── {代號}_manual.md          各股票的填寫資料
 ├── example_reports/
-│   └── 2330_report_example.md    範例報告（新增，惟格式較舊，模組5仍為「股利」，與現行邏輯不一致）
+│   └── 2330_report_20260702.md    範例報告（新增，惟格式較舊，模組5仍為「股利」，與現行邏輯不一致）
 ├── reports/
     ├── {代號}_report_{日期}.md              原始報告
     ├── {代號}_report_{日期}.html            標準 HTML 版
